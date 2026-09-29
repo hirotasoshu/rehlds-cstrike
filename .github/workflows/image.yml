@@ -23,8 +23,22 @@ jobs:
       - uses: docker/build-push-action@v6
         with:
           context: .
-          push: true
+          load: true
           tags: |
             ghcr.io/${{ github.repository }}:latest
             ghcr.io/${{ github.repository }}:${{ github.sha }}
           platforms: linux/amd64
+      - name: Smoke test server startup
+        run: |
+          docker run -d --name cs16-smoke ghcr.io/${{ github.repository }}:${{ github.sha }} +maxplayers 8
+          sleep 12
+          docker logs cs16-smoke 2>&1 | tee /tmp/cs16-smoke.log
+          docker ps --filter name=cs16-smoke --filter status=running --quiet | grep -q .
+          grep -q 'Started map "de_dust2"' /tmp/cs16-smoke.log
+          grep -q "Loaded plugin 'Reunion'" /tmp/cs16-smoke.log
+          ! grep -E 'Invalid AuthVersion|ERROR: dll: Failed to load plugin' /tmp/cs16-smoke.log
+          docker rm -f cs16-smoke
+      - name: Push verified image
+        run: |
+          docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
+          docker push ghcr.io/${{ github.repository }}:latest

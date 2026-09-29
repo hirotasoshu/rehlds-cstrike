@@ -81,7 +81,6 @@ RUN curl -fsSL "$regamedll_url" -o regamedll.zip \
 # Install ReAPI
 RUN curl -fsSL "$reapi_url" -o reapi.zip \
  && unzip -o reapi.zip -d "/opt/steam/hlds/cstrike"
-RUN echo 'reapi' >> /opt/steam/hlds/cstrike/addons/amxmodx/configs/modules.ini
 
 RUN mkdir -p /opt/steam/hlds/cstrike/addons/reunion /opt/steam/state \
  && curl -fsSL "https://github.com/rehlds/ReUnion/releases/download/$reunion_version/reunion-$reunion_version.zip" -o reunion.zip \

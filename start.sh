@@ -7,7 +7,7 @@ if [ ! -s /opt/steam/state/reunion-salt ]; then
 fi
 
 salt=$(cat /opt/steam/state/reunion-salt)
-sed -e 's/^AuthVersion = .*/AuthVersion = 4/' \
+sed -e 's/^AuthVersion = .*/AuthVersion = 3/' \
     -e "s/^SteamIdHashSalt =.*/SteamIdHashSalt = $salt/" \
     /opt/steam/reunion.cfg.default > /opt/steam/hlds/cstrike/reunion.cfg
 
@@ -18,4 +18,4 @@ else
 fi
 
 cd /opt/steam/hlds
-exec ./hlds_run -timeout 3 -pingboost 1 -game cstrike -console -port 27015 +map de_dust2 "$@"
+exec ./hlds_run -timeout 3 -pingboost 1 -game cstrike -console -port 27015 "$@" +map de_dust2
