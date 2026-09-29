@@ -110,6 +110,7 @@ WORKDIR /opt/steam/hlds
 
 # Copy default config
 COPY --chmod=0755 --chown=steam:steam cstrike cstrike
+COPY --chown=steam:steam plugins/plugins.ini /opt/steam/hlds/cstrike/addons/amxmodx/configs/plugins.ini
 COPY --chmod=0755 --chown=steam:steam start.sh /opt/steam/start.sh
 
 RUN chmod +x hlds_run hlds_linux
