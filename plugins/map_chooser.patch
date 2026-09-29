@@ -1,0 +1,8 @@
+--- map_chooser.sma
++++ map_chooser.sma
+@@ -4,1 +4,1 @@
+-#define BLOCK_MAPS 	10	// Количество последних сыгранных карт
++#define BLOCK_MAPS 	3	// Количество последних сыгранных карт
+@@ -38,1 +38,1 @@
+-#define VSEM_SPS_SOUND 	 "misc/neugomon/vsem_sps.wav"
++//#define VSEM_SPS_SOUND 	 "misc/neugomon/vsem_sps.wav"

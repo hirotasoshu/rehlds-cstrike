@@ -1,0 +1,28 @@
+services:
+  game:
+    image: ghcr.io/hirotasoshu/rehlds-cstrike:latest
+    restart: unless-stopped
+    environment:
+      FASTDL_URL: ${FASTDL_URL:?Set FASTDL_URL in .env}
+    command: ["+maxplayers 24", "+log on"]
+    ports:
+      - "27015:27015/udp"
+      - "27015:27015/tcp"
+    volumes:
+      - maps:/opt/steam/hlds/cstrike/maps
+      - reunion-state:/opt/steam/state
+
+  fastdl:
+    image: nginx:1.28-alpine
+    restart: unless-stopped
+    depends_on:
+      - game
+    ports:
+      - "80:80"
+    volumes:
+      - maps:/usr/share/nginx/html/cstrike/maps:ro
+      - ./nginx/fastdl.conf:/etc/nginx/conf.d/default.conf:ro
+
+volumes:
+  maps:
+  reunion-state:

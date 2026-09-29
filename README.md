@@ -2,7 +2,7 @@
 
 # ReHLDS Docker
 
-# Fork of HLDS Docker dproto
+# ReHLDS + ReUnion for CS 1.6
 
 This started out from the docker setup for "Half-Life Dedicated Server as a Docker Image". Now, it serves as a Counter-Strike 1.6 Dedicated Server as a Docker image.
 Aside from the difference from the original, this is using an updated version of Debian and changes to some of the modules and plugins.
@@ -10,24 +10,33 @@ Aside from the difference from the original, this is using an updated version of
 ## Half-Life Dedicated Server as a Docker image
 
 Probably the fastest and easiest way to set up an old-school Counter-Strike 1.6 server.
-Both Steam and noSteam, old and new
-half-life clients can connect and play together! You don't need to know
-anything about Linux or ReHLDS to start a server. You just need Docker and
-this image.
+The image includes ReUnion for mixed Steam/protocol 47/48 clients. Test actual
+client compatibility before advertising the server. No game clients are shipped.
 
 ## Quick Start
 
 Start a new server by running:
 
 ```bash
-docker run --name "cstrike" -p 27015:27015 -p 27015:27015/udp blsalin/rehlds-cstrike
+cp .env.example .env
+# Set FASTDL_URL to the externally reachable URL of your nginx server.
+docker compose up -d
 ```
 
-This will create a container named "cstrike" with the 27015 port open (on UDP and TCP).
+The Compose stack starts the game and nginx on TCP 80. Forward TCP 80 and UDP
+27015 from your public IP to the VM (and allow them in the host/provider firewall).
+The FastDL URL must end in `/cstrike/`. The first game startup populates a
+persistent Docker maps volume; nginx serves only its `/cstrike/maps/` contents.
+The ReUnion Steam ID salt is generated on first startup and persisted in a
+separate Docker volume. Keep that volume when upgrading the image or player IDs
+will change. Do not publish the salt. Restart with `docker compose pull && docker
+compose up -d`. When adding new maps to an existing installation, add the BSPs
+to the maps volume too: Docker does not recopy updated image files into an
+already-populated volume.
 
 ## What is included
 
-* [ReHLDS Build](https://github.com/dreamstalker/rehlds) `3.13.0.788`.
+* [ReHLDS Build](https://github.com/rehlds/ReHLDS) `3.15.0.896`.
 
   ```
     Protocol version 48
@@ -36,12 +45,16 @@ This will create a container named "cstrike" with the 27015 port open (on UDP an
 
   ```
 
-* [Metamod-r](https://github.com/theAsmodai/metamod-r) version `1.3.0.138`
+* [Metamod-r](https://github.com/rehlds/Metamod-R) version `1.3.0.149`
 
-* [AMX Mod X](https://github.com/alliedmodders/amxmodx) version `1.8.2`
+* [AMX Mod X](https://github.com/alliedmodders/amxmodx) version `1.9.0.5303`
 
-* [ReAPI](https://github.com/s1lentq/reapi) version `5.24.0.300`
-* [ReGameDLL_CS](https://github.com/s1lentq/ReGameDLL_CS) version `5.26.0.668`
+* [ReAPI](https://github.com/rehlds/ReAPI) version `5.29.0.358`
+* [ReGameDLL_CS](https://github.com/rehlds/ReGameDLL_CS) version `5.30.0.814`
+* [ReUnion](https://github.com/rehlds/ReUnion) version `0.2.0.25`
+* The nine custom maps and four plugins from
+  [ars-anosov/docker-hlds16](https://github.com/ars-anosov/docker-hlds16),
+  plus a small full-reserve-ammo plugin. No web stats or anti-double-duck.
 
 * Patched list of master servers (official and unofficial master servers
   included), so your game server appear in game server browser of all the clients
@@ -52,6 +65,8 @@ This will create a container named "cstrike" with the 27015 port open (on UDP an
 
 * de_dust2
 * de_inferno
+* de_dust2_2x2, awp_india, 35hp_2, aim_map, aim_headshot
+* fy_snow, fy_pool_day, cs_deathmatch-final, cs_deathmatch_2005c
 
 ## Advanced
 
@@ -59,9 +74,5 @@ Check out the example under server-example. It allows adding maps and configurat
 The example contains an override for the mapcycle file.
 
 
-This is how you can run the advanced docker-compose: 
-```bash
-docker build . --tag rehlds-cstrike
-cd server-example
-docker-compose up -d --build
-```
+The image is published by `.github/workflows/image.yml` to
+`ghcr.io/hirotasoshu/rehlds-cstrike:latest` on pushes to `master`.
