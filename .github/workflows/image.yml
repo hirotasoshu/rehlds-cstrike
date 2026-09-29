@@ -30,7 +30,7 @@ jobs:
           platforms: linux/amd64
       - name: Smoke test server startup
         run: |
-          docker run -d --name cs16-smoke ghcr.io/${{ github.repository }}:${{ github.sha }} +maxplayers 8
+          docker run -d --name cs16-smoke ghcr.io/${{ github.repository }}:${{ github.sha }} +maxplayers 8 +log on
           sleep 12
           docker logs cs16-smoke 2>&1 | tee /tmp/cs16-smoke.log
           docker ps --filter name=cs16-smoke --filter status=running --quiet | grep -q .
