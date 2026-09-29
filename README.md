@@ -23,8 +23,10 @@ cp .env.example .env
 docker compose up -d
 ```
 
-The Compose stack starts the game and nginx on TCP 80. Forward TCP 80 and UDP
-27015 from your public IP to the VM (and allow them in the host/provider firewall).
+The Compose stack starts the game and nginx on TCP 80 by default. Set
+`FASTDL_PORT` in `.env` if TCP 80 is already occupied, and include that port in
+`FASTDL_URL`. Forward that TCP port and UDP 27015 if players connect from
+outside your LAN (and allow them in the host/provider firewall).
 The FastDL URL must end in `/cstrike/`. The first game startup populates a
 persistent Docker maps volume; nginx serves only its `/cstrike/maps/` contents.
 The ReUnion Steam ID salt is generated on first startup and persisted in a
