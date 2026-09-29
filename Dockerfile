@@ -33,7 +33,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN groupadd -r steam && useradd -r -g steam -m -d /opt/steam steam
 
 RUN apt-get -y update && apt-get install -y --no-install-recommends \
-    ca-certificates curl lib32gcc-s1 unzip patch \
+    ca-certificates curl lib32gcc-s1 lib32stdc++6 unzip patch \
  && rm -rf /var/lib/apt/lists/*
 
 USER steam
