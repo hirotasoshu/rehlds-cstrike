@@ -37,6 +37,7 @@ jobs:
           grep -q 'Started map "de_dust2"' /tmp/cs16-smoke.log
           grep -q "Loaded plugin 'Reunion'" /tmp/cs16-smoke.log
           grep -qi "Loaded plugin 'ReVoice'" /tmp/cs16-smoke.log
+          ! grep -q "couldn't exec addons/revoice/revoice.cfg" /tmp/cs16-smoke.log
           ! grep -Ei 'Invalid AuthVersion|ERROR: dll: Failed to load plugin|Plugin .*failed to load|Invalid Plugin' /tmp/cs16-smoke.log
           docker exec cs16-smoke sh -c 'grep -q "^auto_ammo.amxx" /opt/steam/hlds/cstrike/addons/amxmodx/configs/plugins.ini'
           docker exec cs16-smoke sh -c '! grep -Eq "^(statsx|antidoubleduck|mapchooser)\\.amxx" /opt/steam/hlds/cstrike/addons/amxmodx/configs/plugins.ini'

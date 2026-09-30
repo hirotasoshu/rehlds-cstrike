@@ -92,7 +92,7 @@ RUN mkdir -p /opt/steam/hlds/cstrike/addons/reunion /opt/steam/state \
 RUN mkdir -p /opt/steam/hlds/cstrike/addons/revoice \
  && curl -fsSL "https://github.com/rehlds/ReVoice/releases/download/$revoice_version/revoice_$revoice_version.zip" -o revoice.zip \
  && unzip -p revoice.zip bin/linux32/revoice_mm_i386.so > /opt/steam/hlds/cstrike/addons/revoice/revoice_mm_i386.so \
- && unzip -p revoice.zip revoice.cfg > /opt/steam/hlds/cstrike/revoice.cfg \
+ && unzip -p revoice.zip revoice.cfg > /opt/steam/hlds/cstrike/addons/revoice/revoice.cfg \
  && echo 'linux addons/revoice/revoice_mm_i386.so' >> /opt/steam/hlds/cstrike/addons/metamod/plugins.ini
 
 # Map and plugin sources are pinned to the author's repository revision.
