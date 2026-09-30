@@ -54,6 +54,7 @@ already-populated volume.
 * [ReAPI](https://github.com/rehlds/ReAPI) version `5.29.0.358`
 * [ReGameDLL_CS](https://github.com/rehlds/ReGameDLL_CS) version `5.30.0.814`
 * [ReUnion](https://github.com/rehlds/ReUnion) version `0.2.0.25`
+* [ReVoice](https://github.com/rehlds/ReVoice) version `0.1.0.34` for voice chat between Steam and non-Steam clients.
 * The nine custom maps and four plugins from
   [ars-anosov/docker-hlds16](https://github.com/ars-anosov/docker-hlds16),
   plus a small full-reserve-ammo plugin. No web stats or anti-double-duck.

@@ -6,6 +6,7 @@ ARG amxmod_version=1.9.0-git5303
 ARG regamedll_version=5.30.0.814
 ARG reapi_version=5.29.0.358
 ARG reunion_version=0.2.0.25
+ARG revoice_version=0.1.0.34
 ARG maps_commit=9275947472f28606ac72e92ef35ce31d9bc804e8
 ARG steamcmd_url=https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
 ARG rehlds_url="https://github.com/dreamstalker/rehlds/releases/download/$rehlds_build/rehlds-bin-$rehlds_build.zip"
@@ -87,6 +88,12 @@ RUN mkdir -p /opt/steam/hlds/cstrike/addons/reunion /opt/steam/state \
  && unzip -p reunion.zip bin/Linux/reunion_mm_i386.so > /opt/steam/hlds/cstrike/addons/reunion/reunion_mm_i386.so \
  && unzip -p reunion.zip reunion.cfg > /opt/steam/reunion.cfg.default \
  && echo 'linux addons/reunion/reunion_mm_i386.so' >> /opt/steam/hlds/cstrike/addons/metamod/plugins.ini
+
+RUN mkdir -p /opt/steam/hlds/cstrike/addons/revoice \
+ && curl -fsSL "https://github.com/rehlds/ReVoice/releases/download/$revoice_version/revoice_$revoice_version.zip" -o revoice.zip \
+ && unzip -p revoice.zip bin/linux32/revoice_mm_i386.so > /opt/steam/hlds/cstrike/addons/revoice/revoice_mm_i386.so \
+ && unzip -p revoice.zip revoice.cfg > /opt/steam/hlds/cstrike/revoice.cfg \
+ && echo 'linux addons/revoice/revoice_mm_i386.so' >> /opt/steam/hlds/cstrike/addons/metamod/plugins.ini
 
 # Map and plugin sources are pinned to the author's repository revision.
 RUN mkdir -p /opt/steam/hlds/cstrike/maps \
